@@ -37,3 +37,11 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+.idea/compiler.xml
+.idea/git_toolbox_prj.xml
+.idea/gradle.xml
+.idea/jarRepositories.xml
+.idea/kotlinc.xml
+.idea/misc.xml
+.idea/vcs.xml
+.idea/workspace.xml

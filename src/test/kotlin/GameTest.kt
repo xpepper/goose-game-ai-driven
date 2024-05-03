@@ -1,20 +1,16 @@
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 class GameTest {
-
     @Test
-    fun `add a new player to the game`() {
+    fun `should add a player to the game`() {
+        // Given
         val game = Game()
-        game.addPlayer("Pippo")
-        assertEquals("players: Pippo", game.playersList())
-    }
 
-    @Test
-    fun `adding a duplicate player does not alter the player list`() {
-        val game = Game()
+        // When
         game.addPlayer("Pippo")
-        game.addPlayer("Pippo") // Attempt to add a duplicate
-        assertEquals("players: Pippo", game.playersList())
+
+        // Then
+        assertEquals("players: Pippo", game.players())
     }
 }

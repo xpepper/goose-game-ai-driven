@@ -3,8 +3,10 @@ class Game {
 
     fun addPlayer(player: Player): String {
         players.add(player)
-        return "players: ${players.joinToString(", ") { it.name }}"
+        return "players: ${playersInGame()}"
     }
+
+    private fun playersInGame() = players.joinToString(", ") { it.name }
 }
 
 data class Player(val name: String)

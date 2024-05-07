@@ -6,7 +6,7 @@ class GameTest {
     @Test
     fun `when a player is added, the system should respond with the player's name`() {
         val game = Game()
-        val response = game.addPlayer("Pippo")
+        val response = game.addPlayer(Player("Pippo"))
         assertEquals("players: Pippo", response)
     }
 }

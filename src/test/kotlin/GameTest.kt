@@ -9,4 +9,12 @@ class GameTest {
         val response = game.addPlayer(Player("Pippo"))
         assertEquals("players: Pippo", response)
     }
+
+    @Test
+    fun `when an existing player is added again, the system should respond with an appropriate message`() {
+        val game = Game()
+        game.addPlayer(Player("Pippo"))
+        val response = game.addPlayer(Player("Pippo"))
+        assertEquals("Pippo: already existing player", response)
+    }
 }

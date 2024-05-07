@@ -1,16 +1,8 @@
 class Game {
-    private val playerList = mutableListOf<String>()
+    private val players = mutableListOf<String>()
 
-    fun addPlayer(name: String): String? {
-        return if (playerList.contains(name)) {
-            "$name: already existing player"
-        } else {
-            playerList.add(name)
-            null
-        }
-    }
-
-    fun players(): String {
-        return "players: ${playerList.joinToString(", ")}"
+    fun addPlayer(name: String): String {
+        players.add(name)
+        return "players: ${players.joinToString(", ")}"
     }
 }

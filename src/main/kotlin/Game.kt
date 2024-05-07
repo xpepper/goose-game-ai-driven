@@ -12,11 +12,24 @@ class Game {
     }
 
     fun movePlayer(name: String, dice1: Int, dice2: Int): String {
-        val player = players.find { it.name == name } ?: return "Player not found"
-        val oldPosition = positions[player] ?: return "Player position not found"
-        val newPosition = oldPosition + dice1 + dice2
-        positions[player] = newPosition
+        val player = playerWithName(name) ?: return "Player not found"
+        val oldPosition = player.position() ?: return "Player position not found"
+        val newPosition = updatePlayerPosition(player, dice1, dice2)
 
+        return generateMoveMessage(name, dice1, dice2, oldPosition, newPosition)
+    }
+
+    private fun playerWithName(name: String) = players.find { it.name == name }
+
+    private fun Player.position() = positions[this]
+
+    private fun updatePlayerPosition(player: Player, dice1: Int, dice2: Int): Int {
+        val newPosition = (player.position() ?: 0) + dice1 + dice2
+        positions[player] = newPosition
+        return newPosition
+    }
+
+    private fun generateMoveMessage(name: String, dice1: Int, dice2: Int, oldPosition: Int, newPosition: Int): String {
         val oldPositionName = if (oldPosition == 0) "Start" else oldPosition.toString()
         return "$name rolls $dice1, $dice2. $name moves from $oldPositionName to $newPosition"
     }

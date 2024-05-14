@@ -11,27 +11,28 @@ class Game {
         return "players: ${playersInGame()}"
     }
 
-    fun movePlayer(name: String, dice1: Int, dice2: Int): String {
+    fun movePlayer(name: String, dice: Dice): String {
         val player = playerWithName(name) ?: return "Player not found"
         val oldPosition = player.position() ?: return "Player position not found"
-        val newPosition = updatePlayerPosition(player, dice1, dice2)
+        val roll = dice.roll()
+        val newPosition = updatePlayerPosition(player, roll)
 
-        return generateMoveMessage(name, dice1, dice2, oldPosition, newPosition)
+        return generateMoveMessage(name, roll, oldPosition, newPosition)
     }
 
     private fun playerWithName(name: String) = players.find { it.name == name }
 
     private fun Player.position() = positions[this]
 
-    private fun updatePlayerPosition(player: Player, dice1: Int, dice2: Int): Int {
-        val newPosition = (player.position() ?: 0) + dice1 + dice2
+    private fun updatePlayerPosition(player: Player, roll: Int): Int {
+        val newPosition = (player.position() ?: 0) + roll
         positions[player] = newPosition
         return newPosition
     }
 
-    private fun generateMoveMessage(name: String, dice1: Int, dice2: Int, oldPosition: Int, newPosition: Int): String {
+    private fun generateMoveMessage(name: String, roll: Int, oldPosition: Int, newPosition: Int): String {
         val oldPositionName = if (oldPosition == 0) "Start" else oldPosition.toString()
-        return "$name rolls $dice1, $dice2. $name moves from $oldPositionName to $newPosition"
+        return "$name rolls $roll. $name moves from $oldPositionName to $newPosition"
     }
 
     private fun Player.isAlreadyPresent() = players.any { it.name == name }

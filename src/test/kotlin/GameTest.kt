@@ -1,3 +1,5 @@
+import io.mockk.every
+import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -22,13 +24,17 @@ class GameTest {
         game.addPlayer(Player("Pippo"))
         game.addPlayer(Player("Pluto"))
 
-        var response = game.movePlayer("Pippo", 4, 2)
-        assertEquals("Pippo rolls 4, 2. Pippo moves from Start to 6", response)
+        val dice = mockk<Dice>()
+        every { dice.roll() } returns 6
+        var response = game.movePlayer("Pippo", dice)
+        assertEquals("Pippo rolls 6. Pippo moves from Start to 6", response)
 
-        response = game.movePlayer("Pluto", 2, 2)
-        assertEquals("Pluto rolls 2, 2. Pluto moves from Start to 4", response)
+        every { dice.roll() } returns 4
+        response = game.movePlayer("Pluto", dice)
+        assertEquals("Pluto rolls 4. Pluto moves from Start to 4", response)
 
-        response = game.movePlayer("Pippo", 2, 3)
-        assertEquals("Pippo rolls 2, 3. Pippo moves from 6 to 11", response)
+        every { dice.roll() } returns 5
+        response = game.movePlayer("Pippo", dice)
+        assertEquals("Pippo rolls 5. Pippo moves from 6 to 11", response)
     }
 }

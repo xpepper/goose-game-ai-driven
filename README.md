@@ -1,0 +1,3 @@
+[Goose Game kata](https://github.com/xpeppers/goose-game-kata), done in pair with GitHub Copilot, to sharpen my prompt engineering skills and reflect on the communication patterns to adopt when pairing with an AI-assisted coding tool 😄...
+
+See also my reflections [here](https://pierodibello.notion.site/Una-riflessione-sul-futuro-del-coding-partendo-da-un-coding-kata-svolto-assieme-a-Copilot-YouTu-9acc09de491a46c9a6aef5a2f8c519f0?pvs=74) (Italian)

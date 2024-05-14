@@ -37,4 +37,17 @@ class GameTest {
         response = game.movePlayer("Pippo", dice)
         assertEquals("Pippo rolls 5. Pippo moves from 6 to 11", response)
     }
+
+    @Test
+    fun `when a player lands on space 63, they win the game`() {
+        val pippo = Player("Pippo")
+        game.addPlayer(pippo)
+        pippo.move(60) // Move Pippo to space 60
+
+        val dice = mockk<Dice>()
+        every { dice.roll() } returns 3
+        val response = game.movePlayer("Pippo", dice)
+
+        assertEquals("Pippo rolls 3. Pippo moves from 60 to 63. Pippo Wins!!", response)
+    }
 }

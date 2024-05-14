@@ -15,7 +15,11 @@ class Game {
         val roll = dice.roll()
         player.move(roll)
 
-        return generateMoveMessage(name, roll, oldPosition, player.getPosition())
+        val response = generateMoveMessage(name, roll, oldPosition, player.getPosition())
+        if (player.getPosition() == 63) {
+            return "$response. ${player.name} Wins!!"
+        }
+        return response
     }
 
     private fun playerWithName(name: String) = players.find { it.name == name }

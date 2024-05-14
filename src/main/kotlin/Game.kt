@@ -16,7 +16,7 @@ class Game {
         player.move(roll)
 
         val response = generateMoveMessage(player, roll, oldPosition)
-        if (player.getPosition() == 63) {
+        if (player.hasWon()) {
             return "$response. ${player.name} Wins!!"
         }
         return response
@@ -41,5 +41,9 @@ data class Player(val name: String, private var position: Int = 0) {
 
     fun getPosition(): Int {
         return position
+    }
+
+    fun hasWon(): Boolean {
+        return position == 63
     }
 }

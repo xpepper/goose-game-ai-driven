@@ -11,11 +11,11 @@ class Game {
 
     fun movePlayer(name: String, dice: Dice): String {
         val player = playerWithName(name) ?: return "Player not found"
-        val oldPosition = player.position
+        val oldPosition = player.getPosition()
         val roll = dice.roll()
-        player.position += roll
+        player.move(roll)
 
-        return generateMoveMessage(name, roll, oldPosition, player.position)
+        return generateMoveMessage(name, roll, oldPosition, player.getPosition())
     }
 
     private fun playerWithName(name: String) = players.find { it.name == name }
@@ -30,4 +30,12 @@ class Game {
     private fun playersInGame() = players.joinToString(", ") { it.name }
 }
 
-data class Player(val name: String, var position: Int = 0)
+data class Player(val name: String, private var position: Int = 0) {
+    fun move(roll: Int) {
+        position += roll
+    }
+
+    fun getPosition(): Int {
+        return position
+    }
+}

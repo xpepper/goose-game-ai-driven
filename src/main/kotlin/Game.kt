@@ -14,8 +14,9 @@ class Game {
         val oldPosition = player.getPosition()
         val roll = dice.roll()
         player.move(roll)
+        val newPosition = player.getPosition()
 
-        val response = generateMoveMessage(player, roll, oldPosition)
+        val response = generateMoveMessage(player, roll, oldPosition, newPosition)
         if (player.hasWon()) {
             return "$response. ${player.name} Wins!!"
         }
@@ -24,13 +25,18 @@ class Game {
 
     private fun playerWithName(name: String) = players.find { it.name == name }
 
-    private fun generateMoveMessage(player: Player, roll: Int, oldPosition: Int): String {
+    private fun generateMoveMessage(player: Player, roll: Int, oldPosition: Int, newPosition: Int): String {
         val oldPositionName = if (oldPosition == 0) "Start" else oldPosition.toString()
-        return "${player.name} rolls $roll. ${player.name} moves from $oldPositionName to ${player.getPosition()}"
+        var response = "${player.name} rolls $roll. ${player.name} moves from $oldPositionName to "
+        response += if (newPosition < oldPosition) {
+            "${63}. ${player.name} bounces! ${player.name} returns to $newPosition"
+        } else {
+            "$newPosition"
+        }
+        return response
     }
 
     private fun Player.isAlreadyPresent() = players.any { it.name == name }
 
     private fun playersInGame() = players.joinToString(", ") { it.name }
 }
-

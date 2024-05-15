@@ -1,3 +1,5 @@
+internal const val THE_BRIDGE = 6
+
 class Game(private val diceRoller: () -> Dice = { roll() }) {
     private val players = mutableListOf<Player>()
 
@@ -31,7 +33,7 @@ class Game(private val diceRoller: () -> Dice = { roll() }) {
             "${player.name} rolls ${dice.first}, ${dice.second}. ${player.name} moves from $oldPositionName to "
         response += if (player.bouncedFrom(oldPosition)) {
             bounceMessage(player)
-        } else if (oldPosition + dice.sum == 6) {
+        } else if (oldPosition + dice.sum == THE_BRIDGE) {
             "The Bridge. ${player.name} jumps to ${player.getPosition()}"
         } else {
             "${player.getPosition()}"

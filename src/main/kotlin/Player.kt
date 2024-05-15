@@ -1,7 +1,6 @@
 data class Player(val name: String, private var position: Int = 0) {
     fun move(roll: Int) {
-        val newPosition = position + roll
-        position = if (newPosition > 63) 63 - (newPosition - 63) else newPosition
+        position = (position + roll) % (63 + 1)
         if (position == THE_BRIDGE) {
             position = 12
         }

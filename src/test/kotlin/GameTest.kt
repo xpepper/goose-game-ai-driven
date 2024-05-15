@@ -76,4 +76,16 @@ class GameTest {
 
         assertEquals("Pippo rolls 1, 1. Pippo moves from 4 to The Bridge. Pippo jumps to 12", response)
     }
+
+    @Test
+    fun `when a player lands on The Goose, they move again`() {
+        val pippo = Player("Pippo")
+        game.addPlayer(pippo)
+        pippo.move(3) // Move Pippo to space 3
+
+        every { roller() } returns Dice(1, 1)
+        val response = game.movePlayer(pippo)
+
+        assertEquals("Pippo rolls 1, 1. Pippo moves from 3 to 5, The Goose. Pippo moves again and goes to 7", response)
+    }
 }

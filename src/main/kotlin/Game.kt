@@ -28,6 +28,7 @@ class Game(private val diceRoller: () -> Dice = { roll() }) {
         "${player.name} rolls ${dice.first}, ${dice.second}. ${player.name} moves from ${oldPositionName(player)} to " + when {
             player.bounced() -> bounceMessage(player)
             player.landedOnTheBridgeWith(dice) -> "The Bridge. ${player.name} jumps to ${player.getPosition()}"
+            player.landedOnTheGooseWith(dice) -> "${player.getPosition() - dice.sum}, The Goose. ${player.name} moves again and goes to ${player.getPosition()}"
             else -> player.getPosition().toString()
         }
 

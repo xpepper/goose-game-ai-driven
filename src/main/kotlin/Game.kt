@@ -18,19 +18,20 @@ class Game(private val diceRoller: () -> Dice = { roll() }) {
         val dice = diceRoller()
         player.move(dice.sum)
 
-        val response = generateMoveMessage(player, dice.first, dice.second, oldPosition)
+        val response = generateMoveMessage(player, dice, oldPosition)
         if (player.hasWon()) {
             return "$response. ${player.name} Wins!!"
         }
         return response
     }
 
-    private fun generateMoveMessage(player: Player, dice1: Int, dice2: Int, oldPosition: Int): String {
+    private fun generateMoveMessage(player: Player, dice: Dice, oldPosition: Int): String {
         val oldPositionName = if (oldPosition == 0) "Start" else oldPosition.toString()
-        var response = "${player.name} rolls $dice1, $dice2. ${player.name} moves from $oldPositionName to "
+        var response =
+            "${player.name} rolls ${dice.first}, ${dice.second}. ${player.name} moves from $oldPositionName to "
         response += if (player.bouncedFrom(oldPosition)) {
             bounceMessage(player)
-        } else if (player.getPosition() == 12 && oldPosition + dice1 + dice2 == 6) {
+        } else if (player.getPosition() == 12 && oldPosition + dice.sum == 6) {
             "The Bridge. ${player.name} jumps to ${player.getPosition()}"
         } else {
             "${player.getPosition()}"

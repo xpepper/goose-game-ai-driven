@@ -25,7 +25,7 @@ class Game(private val diceRoller: () -> Dice = { roll() }) {
     }
 
     private fun generateMoveMessage(player: Player, dice: Dice): String {
-        val oldPositionName = if (player.getOldPosition() == 0) "Start" else player.getOldPosition().toString()
+        val oldPositionName = if (player.wasAtStartPosition()) "Start" else player.getOldPosition().toString()
         var response =
             "${player.name} rolls ${dice.first}, ${dice.second}. ${player.name} moves from $oldPositionName to "
         response += if (player.bounced()) {

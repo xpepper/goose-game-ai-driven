@@ -1,7 +1,12 @@
+private const val START_POSITION = 0
 private const val THE_BRIDGE = 6
 private const val LAST_POSITION = 63
 
-data class Player(val name: String, private var position: Int = 0, private var oldPosition: Int = 0) {
+data class Player(
+    val name: String,
+    private var position: Int = START_POSITION,
+    private var oldPosition: Int = START_POSITION
+) {
     fun move(roll: Int) {
         oldPosition = position
         position = (position + roll) % (LAST_POSITION + 1)
@@ -13,6 +18,8 @@ data class Player(val name: String, private var position: Int = 0, private var o
     fun getOldPosition(): Int = oldPosition
 
     fun getPosition(): Int = position
+
+    fun wasAtStartPosition() = getOldPosition() == START_POSITION
 
     fun bounced(): Boolean = getPosition() < getOldPosition()
 

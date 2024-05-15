@@ -1,7 +1,7 @@
 class Dice {
-    fun roll(): Int {
+    fun roll(): Pair<Int, Int> {
         val dice1 = (1..6).random()
         val dice2 = (1..6).random()
-        return dice1 + dice2
+        return Pair(dice1, dice2)
     }
 }

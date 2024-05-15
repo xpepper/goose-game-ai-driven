@@ -4,7 +4,8 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class GameTest {
-    private val game = Game()
+    private val dice = mockk<Dice>()
+    private val game = Game(dice)
 
     @Test
     fun `when a player is added, the system should respond with the player's name`() {
@@ -24,18 +25,17 @@ class GameTest {
         game.addPlayer(Player("Pippo"))
         game.addPlayer(Player("Pluto"))
 
-        val dice = mockk<Dice>()
-        every { dice.roll() } returns 6
-        var response = game.movePlayer("Pippo", dice)
-        assertEquals("Pippo rolls 6. Pippo moves from Start to 6", response)
+        every { dice.roll() } returns Pair(4, 2)
+        var response = game.movePlayer("Pippo")
+        assertEquals("Pippo rolls 4, 2. Pippo moves from Start to 6", response)
 
-        every { dice.roll() } returns 4
-        response = game.movePlayer("Pluto", dice)
-        assertEquals("Pluto rolls 4. Pluto moves from Start to 4", response)
+        every { dice.roll() } returns Pair(1, 3)
+        response = game.movePlayer("Pluto")
+        assertEquals("Pluto rolls 1, 3. Pluto moves from Start to 4", response)
 
-        every { dice.roll() } returns 5
-        response = game.movePlayer("Pippo", dice)
-        assertEquals("Pippo rolls 5. Pippo moves from 6 to 11", response)
+        every { dice.roll() } returns Pair(3, 2)
+        response = game.movePlayer("Pippo")
+        assertEquals("Pippo rolls 3, 2. Pippo moves from 6 to 11", response)
     }
 
     @Test
@@ -44,10 +44,21 @@ class GameTest {
         game.addPlayer(pippo)
         pippo.move(60) // Move Pippo to space 60
 
-        val dice = mockk<Dice>()
-        every { dice.roll() } returns 3
-        val response = game.movePlayer("Pippo", dice)
+        every { dice.roll() } returns Pair(1, 2)
+        val response = game.movePlayer("Pippo")
 
-        assertEquals("Pippo rolls 3. Pippo moves from 60 to 63. Pippo Wins!!", response)
+        assertEquals("Pippo rolls 1, 2. Pippo moves from 60 to 63. Pippo Wins!!", response)
+    }
+
+    @Test
+    fun `the game takes care of rolling the dice for the player`() {
+        val pippo = Player("Pippo")
+        game.addPlayer(pippo)
+        pippo.move(4) // Move Pippo to space 4
+
+        every { dice.roll() } returns Pair(1, 2)
+        val response = game.movePlayer("Pippo")
+
+        assertEquals("Pippo rolls 1, 2. Pippo moves from 4 to 7", response)
     }
 }

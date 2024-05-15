@@ -16,24 +16,23 @@ class Game(private val diceRoller: () -> Dice = { roll() }) {
             return "Player not found"
         }
 
-        val oldPosition = player.getPosition()
         val dice = diceRoller()
         player.move(dice.sum)
 
-        val response = generateMoveMessage(player, dice, oldPosition)
+        val response = generateMoveMessage(player, dice)
         if (player.hasWon()) {
             return "$response. ${player.name} Wins!!"
         }
         return response
     }
 
-    private fun generateMoveMessage(player: Player, dice: Dice, oldPosition: Int): String {
-        val oldPositionName = if (oldPosition == 0) "Start" else oldPosition.toString()
+    private fun generateMoveMessage(player: Player, dice: Dice): String {
+        val oldPositionName = if (player.getOldPosition() == 0) "Start" else player.getOldPosition().toString()
         var response =
             "${player.name} rolls ${dice.first}, ${dice.second}. ${player.name} moves from $oldPositionName to "
-        response += if (player.bouncedFrom(oldPosition)) {
+        response += if (player.bounced()) {
             bounceMessage(player)
-        } else if (oldPosition + dice.sum == THE_BRIDGE) {
+        } else if (player.getOldPosition() + dice.sum == THE_BRIDGE) {
             "The Bridge. ${player.name} jumps to ${player.getPosition()}"
         } else {
             "${player.getPosition()}"
@@ -43,8 +42,6 @@ class Game(private val diceRoller: () -> Dice = { roll() }) {
 
     private fun bounceMessage(player: Player) =
         "${63}. ${player.name} bounces! ${player.name} returns to ${player.getPosition()}"
-
-    private fun Player.bouncedFrom(oldPosition: Int) = getPosition() < oldPosition
 
     private fun Player.isAlreadyPresent() = players.any { it.name == name }
 

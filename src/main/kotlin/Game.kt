@@ -35,7 +35,7 @@ class Game(private val diceRoller: () -> Dice = { roll() }) {
         } else if (player.getOldPosition() + dice.sum == THE_BRIDGE) {
             "The Bridge. ${player.name} jumps to ${player.getPosition()}"
         } else {
-            "${player.getPosition()}"
+            player.getPosition().toString()
         }
         return response
     }

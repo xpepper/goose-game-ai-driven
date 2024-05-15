@@ -9,8 +9,11 @@ class Game(private val dice: Dice = Dice()) {
         return "players: ${playersInGame()}"
     }
 
-    fun movePlayer(name: String): String {
-        val player = playerWithName(name) ?: return "Player not found"
+    fun movePlayer(player: Player): String {
+        if (!players.contains(player)) {
+            return "Player not found"
+        }
+
         val oldPosition = player.getPosition()
         val (dice1, dice2) = dice.roll()
         player.move(dice1 + dice2)

@@ -22,19 +22,22 @@ class GameTest {
 
     @Test
     fun `when a player moves, the system should update their position and respond with the appropriate message`() {
-        game.addPlayer(Player("Pippo"))
-        game.addPlayer(Player("Pluto"))
+        val pippo = Player("Pippo")
+        val pluto = Player("Pluto")
+
+        game.addPlayer(pippo)
+        game.addPlayer(pluto)
 
         every { dice.roll() } returns Pair(4, 2)
-        var response = game.movePlayer("Pippo")
+        var response = game.movePlayer(pippo)
         assertEquals("Pippo rolls 4, 2. Pippo moves from Start to 6", response)
 
         every { dice.roll() } returns Pair(1, 3)
-        response = game.movePlayer("Pluto")
+        response = game.movePlayer(pluto)
         assertEquals("Pluto rolls 1, 3. Pluto moves from Start to 4", response)
 
         every { dice.roll() } returns Pair(3, 2)
-        response = game.movePlayer("Pippo")
+        response = game.movePlayer(pippo)
         assertEquals("Pippo rolls 3, 2. Pippo moves from 6 to 11", response)
     }
 
@@ -45,7 +48,7 @@ class GameTest {
         pippo.move(60) // Move Pippo to space 60
 
         every { dice.roll() } returns Pair(1, 2)
-        val response = game.movePlayer("Pippo")
+        val response = game.movePlayer(pippo)
 
         assertEquals("Pippo rolls 1, 2. Pippo moves from 60 to 63. Pippo Wins!!", response)
     }
@@ -57,7 +60,7 @@ class GameTest {
         pippo.move(4) // Move Pippo to space 4
 
         every { dice.roll() } returns Pair(1, 2)
-        val response = game.movePlayer("Pippo")
+        val response = game.movePlayer(pippo)
 
         assertEquals("Pippo rolls 1, 2. Pippo moves from 4 to 7", response)
     }

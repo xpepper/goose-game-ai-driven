@@ -4,8 +4,8 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class GameTest {
-    private val dice = mockk<Dice>()
-    private val game = Game(dice)
+    private val roller = mockk<() -> Dice>()
+    private val game = Game { roller() }
 
     @Test
     fun `when a player is added, the system should respond with the player's name`() {
@@ -28,15 +28,15 @@ class GameTest {
         game.addPlayer(pippo)
         game.addPlayer(pluto)
 
-        every { dice.roll() } returns Pair(4, 2)
+        every { roller() } returns Dice(listOf(4, 2))
         var response = game.movePlayer(pippo)
         assertEquals("Pippo rolls 4, 2. Pippo moves from Start to 6", response)
 
-        every { dice.roll() } returns Pair(1, 3)
+        every { roller() } returns Dice(1, 3)
         response = game.movePlayer(pluto)
         assertEquals("Pluto rolls 1, 3. Pluto moves from Start to 4", response)
 
-        every { dice.roll() } returns Pair(3, 2)
+        every { roller() } returns Dice(3, 2)
         response = game.movePlayer(pippo)
         assertEquals("Pippo rolls 3, 2. Pippo moves from 6 to 11", response)
     }
@@ -47,7 +47,7 @@ class GameTest {
         game.addPlayer(pippo)
         pippo.move(60) // Move Pippo to space 60
 
-        every { dice.roll() } returns Pair(1, 2)
+        every { roller() } returns Dice(1, 2)
         val response = game.movePlayer(pippo)
 
         assertEquals("Pippo rolls 1, 2. Pippo moves from 60 to 63. Pippo Wins!!", response)
@@ -59,7 +59,7 @@ class GameTest {
         game.addPlayer(pippo)
         pippo.move(4) // Move Pippo to space 4
 
-        every { dice.roll() } returns Pair(1, 2)
+        every { roller() } returns Dice(1, 2)
         val response = game.movePlayer(pippo)
 
         assertEquals("Pippo rolls 1, 2. Pippo moves from 4 to 7", response)

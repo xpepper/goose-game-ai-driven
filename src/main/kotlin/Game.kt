@@ -1,4 +1,4 @@
-class Game(private val dice: Dice = Dice()) {
+class Game(private val diceRoller: () -> Dice = { roll() }) {
     private val players = mutableListOf<Player>()
 
     fun addPlayer(player: Player): String {
@@ -15,17 +15,15 @@ class Game(private val dice: Dice = Dice()) {
         }
 
         val oldPosition = player.getPosition()
-        val (dice1, dice2) = dice.roll()
-        player.move(dice1 + dice2)
+        val dice = diceRoller()
+        player.move(dice.sum)
 
-        val response = generateMoveMessage(player, dice1, dice2, oldPosition)
+        val response = generateMoveMessage(player, dice.first, dice.second, oldPosition)
         if (player.hasWon()) {
             return "$response. ${player.name} Wins!!"
         }
         return response
     }
-
-    private fun playerWithName(name: String) = players.find { it.name == name }
 
     private fun generateMoveMessage(player: Player, dice1: Int, dice2: Int, oldPosition: Int): String {
         val oldPositionName = if (oldPosition == 0) "Start" else oldPosition.toString()
@@ -38,7 +36,8 @@ class Game(private val dice: Dice = Dice()) {
         return response
     }
 
-    private fun bounceMessage(player: Player) = "${63}. ${player.name} bounces! ${player.name} returns to ${player.getPosition()}"
+    private fun bounceMessage(player: Player) =
+        "${63}. ${player.name} bounces! ${player.name} returns to ${player.getPosition()}"
 
     private fun Player.bouncedFrom(oldPosition: Int) = getPosition() < oldPosition
 

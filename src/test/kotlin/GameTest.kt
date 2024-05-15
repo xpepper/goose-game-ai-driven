@@ -1,6 +1,7 @@
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class GameTest {
@@ -87,5 +88,36 @@ class GameTest {
         val response = game.movePlayer(pippo)
 
         assertEquals("Pippo rolls 1, 1. Pippo moves from 3 to 5, The Goose. Pippo moves again and goes to 7", response)
+    }
+
+    @Test
+    fun `check player moves tracking`() {
+        val pippo = Player("Pippo")
+        game.addPlayer(pippo)
+
+        every { roller() } returns Dice(2, 2)
+        game.movePlayer(pippo)
+        game.movePlayer(pippo)
+        game.movePlayer(pippo)
+        game.movePlayer(pippo)
+        game.movePlayer(pippo)
+
+        assertEquals(listOf(0, 4, 8, 12, 16, 20), pippo.moves())
+    }
+
+    @Test
+    @Disabled
+    fun `when a player lands on The Goose consecutively, they move again multiple times`() {
+        val pippo = Player("Pippo")
+        game.addPlayer(pippo)
+        pippo.move(10) // Move Pippo to space 10
+
+        every { roller() } returns Dice(2, 2)
+        val response = game.movePlayer(pippo)
+
+        assertEquals(
+            "Pippo rolls 2, 2. Pippo moves from 10 to 14, The Goose. Pippo moves again and goes to 18, The Goose. Pippo moves again and goes to 22",
+            response
+        )
     }
 }

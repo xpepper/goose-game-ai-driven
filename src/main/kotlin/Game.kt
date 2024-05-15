@@ -27,16 +27,16 @@ class Game(private val diceRoller: () -> Dice = { roll() }) {
     private fun generateMoveMessage(player: Player, dice: Dice): String =
         "${player.name} rolls ${dice.first}, ${dice.second}. ${player.name} moves from ${oldPositionName(player)} to " + when {
             player.bounced() -> bounceMessage(player)
-            player.landedOnTheBridgeWith(dice) -> "The Bridge. ${player.name} jumps to ${player.getPosition()}"
-            player.landedOnTheGooseWith(dice) -> "${player.getPosition() - dice.sum}, The Goose. ${player.name} moves again and goes to ${player.getPosition()}"
-            else -> player.getPosition().toString()
+            player.landedOnTheBridgeWith(dice) -> "The Bridge. ${player.name} jumps to ${player.position()}"
+            player.landedOnTheGooseWith(dice) -> "${player.position() - dice.sum}, The Goose. ${player.name} moves again and goes to ${player.position()}"
+            else -> player.position().toString()
         }
 
     private fun oldPositionName(player: Player) =
-        if (player.wasAtStartPosition()) "Start" else player.getOldPosition().toString()
+        if (player.wasAtStartPosition()) "Start" else player.previousPosition().toString()
 
     private fun bounceMessage(player: Player) =
-        "${63}. ${player.name} bounces! ${player.name} returns to ${player.getPosition()}"
+        "${63}. ${player.name} bounces! ${player.name} returns to ${player.position()}"
 
     private fun Player.isAlreadyPresent() = players.any { it.name == name }
 

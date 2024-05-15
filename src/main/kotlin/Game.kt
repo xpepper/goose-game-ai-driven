@@ -27,13 +27,17 @@ class Game {
     private fun generateMoveMessage(player: Player, roll: Int, oldPosition: Int): String {
         val oldPositionName = if (oldPosition == 0) "Start" else oldPosition.toString()
         var response = "${player.name} rolls $roll. ${player.name} moves from $oldPositionName to "
-        response += if (player.getPosition() < oldPosition) {
-            "${63}. ${player.name} bounces! ${player.name} returns to ${player.getPosition()}"
+        response += if (player.bouncedFrom(oldPosition)) {
+            bounceMessage(player)
         } else {
             "${player.getPosition()}"
         }
         return response
     }
+
+    private fun bounceMessage(player: Player) = "${63}. ${player.name} bounces! ${player.name} returns to ${player.getPosition()}"
+
+    private fun Player.bouncedFrom(oldPosition: Int) = getPosition() < oldPosition
 
     private fun Player.isAlreadyPresent() = players.any { it.name == name }
 

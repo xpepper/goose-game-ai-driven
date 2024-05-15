@@ -24,18 +24,12 @@ class Game(private val diceRoller: () -> Dice = { roll() }) {
         return response
     }
 
-    private fun generateMoveMessage(player: Player, dice: Dice): String {
-        var response =
-            "${player.name} rolls ${dice.first}, ${dice.second}. ${player.name} moves from ${oldPositionName(player)} to "
-        response += if (player.bounced()) {
-            bounceMessage(player)
-        } else if (player.landedOnTheBridgeWith(dice)) {
-            "The Bridge. ${player.name} jumps to ${player.getPosition()}"
-        } else {
-            player.getPosition().toString()
+    private fun generateMoveMessage(player: Player, dice: Dice): String =
+        "${player.name} rolls ${dice.first}, ${dice.second}. ${player.name} moves from ${oldPositionName(player)} to " + when {
+            player.bounced() -> bounceMessage(player)
+            player.landedOnTheBridgeWith(dice) -> "The Bridge. ${player.name} jumps to ${player.getPosition()}"
+            else -> player.getPosition().toString()
         }
-        return response
-    }
 
     private fun oldPositionName(player: Player) =
         if (player.wasAtStartPosition()) "Start" else player.getOldPosition().toString()

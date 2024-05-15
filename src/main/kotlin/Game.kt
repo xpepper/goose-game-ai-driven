@@ -31,7 +31,7 @@ class Game(private val diceRoller: () -> Dice = { roll() }) {
             "${player.name} rolls ${dice.first}, ${dice.second}. ${player.name} moves from $oldPositionName to "
         response += if (player.bouncedFrom(oldPosition)) {
             bounceMessage(player)
-        } else if (player.getPosition() == 12 && oldPosition + dice.sum == 6) {
+        } else if (oldPosition + dice.sum == 6) {
             "The Bridge. ${player.name} jumps to ${player.getPosition()}"
         } else {
             "${player.getPosition()}"

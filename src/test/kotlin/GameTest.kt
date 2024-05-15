@@ -28,9 +28,9 @@ class GameTest {
         game.addPlayer(pippo)
         game.addPlayer(pluto)
 
-        every { roller() } returns Dice(listOf(4, 2))
+        every { roller() } returns Dice(5, 2)
         var response = game.movePlayer(pippo)
-        assertEquals("Pippo rolls 4, 2. Pippo moves from Start to 6", response)
+        assertEquals("Pippo rolls 5, 2. Pippo moves from Start to 7", response)
 
         every { roller() } returns Dice(1, 3)
         response = game.movePlayer(pluto)
@@ -38,7 +38,7 @@ class GameTest {
 
         every { roller() } returns Dice(3, 2)
         response = game.movePlayer(pippo)
-        assertEquals("Pippo rolls 3, 2. Pippo moves from 6 to 11", response)
+        assertEquals("Pippo rolls 3, 2. Pippo moves from 7 to 12", response)
     }
 
     @Test
@@ -63,5 +63,17 @@ class GameTest {
         val response = game.movePlayer(pippo)
 
         assertEquals("Pippo rolls 1, 2. Pippo moves from 4 to 7", response)
+    }
+
+    @Test
+    fun `when a player lands on space 6, The Bridge, they jump to space 12`() {
+        val pippo = Player("Pippo")
+        game.addPlayer(pippo)
+        pippo.move(4) // Move Pippo to space 4
+
+        every { roller() } returns Dice(1, 1)
+        val response = game.movePlayer(pippo)
+
+        assertEquals("Pippo rolls 1, 1. Pippo moves from 4 to The Bridge. Pippo jumps to 12", response)
     }
 }

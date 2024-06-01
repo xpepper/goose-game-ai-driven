@@ -35,6 +35,7 @@ As a player, I want to add me to the game so that I can play.
 You are going to write the first test, and then I'm going to give you feedback on its quality. 
 If the test is ok to me, we'll move on to implement the application code that we'll make the test pass.
 Then we will look for any opportunity to make the code clearer, easier to understand by refactoring it.
+
 ---
 
 Along with the code, you can find the prompts I used to guide the pair programming session in the `prompts` folder.

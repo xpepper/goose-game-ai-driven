@@ -41,4 +41,18 @@ We'll work in small steps, iteratively.
 Along with the code, you can find the prompts I used to guide the pair programming session in the `prompts` >older.
 I created a new prompt file for each new step we made. I put more prompts in the same file, separated by a `---` line, when a single prompt did not result in all tests passing. 
 
+## My feedback on performing this kata with Copilot
+
+- I feel I'm less focused on the resulting code, more focused on the correct prompt and whether the response "works" or not
+    - I noticed that sometimes I focus more on the form of the prompt and whether the code compiles and the tests still pass rather than on the form of the code... sometimes this led us to a dead end, and we had to revert the changes and start again.
+- it is not clear how sensitive Copilot is to what is better to do after refactoring: refactor at will? when does it make sense to move on to the next test?
+- often, the "specifications" are inherently ambiguous (what does "the game rolls the dice" mean?) => faced with this ambiguity, it is very likely that the model's response is not the "right" one, unless we reduce the ambiguity in the prompt ourselves (thus assuming the role of "disambiguators", of "customer")
+- sometimes the model's responses surprise me (e.g., it manages to understand the context well and modify the code to respect the style and form of the existing code), other times it makes mistakes that seem like "distraction errors" like we humans do 😅
+- Copilot has an excellent context window, it can remember things said several prompts before.
+- when it refactors or proposes changes, it does not realize that it also needs to fix the tests... it almost always focuses only on the application code 😔
+- when the code needs preparatory refactoring to accommodate the next feature (the classic “first, make the change easy, then make the easy change”), Copilot struggles:
+    - it does not seem to be unable to face this kind of reasoning (like in ”we need to take a step back and review things strategically”)
+    - it fails to identify "complex" smells like when the logic we need for the next feature is scattered across multiple classes, so we need to take a step back before moving forward.
+    - even if you tell it to start from scratch, throwing away all the code produced starting from the test that remained red-barred, it often simply repeats the same steps, even if you tell it “let's try a new approach” or “let's do things in small steps”.
+
 See also my reflections [here](https://pierodibello.notion.site/Una-riflessione-sul-futuro-del-coding-partendo-da-un-coding-kata-svolto-assieme-a-Copilot-YouTu-9acc09de491a46c9a6aef5a2f8c519f0?pvs=74) (Italian)
